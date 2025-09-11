@@ -60,33 +60,32 @@ function AnimatedGrid() {
   );
 }
 
+
 function FloatingNodes() {
   const nodes = useMemo(
     () =>
       Array.from({ length: 12 }).map(() => ({
-        x: Math.random() * 100 + "%",
-        y: Math.random() * 100 + "%",
+        x: Math.random() * 100 + "%", // stay within screen width
+        y: Math.random() * 100 + "%", // stay within screen height
         duration: 6 + Math.random() * 6,
       })),
-    [] // run only once
+    []
   );
 
   return (
-    <div className="pointer-events-none absolute inset-0">
+    <div className="pointer-events-none  inset-0 w-full h-full">
       {nodes.map((node, i) => (
         <motion.span
           key={i}
           className="absolute h-2 w-2 rounded-full"
-          style={{ backgroundColor: "#3ab5a9" }}
+          style={{ backgroundColor: "#3ab5a9", left: node.x, top: node.y }}
           initial={{
             opacity: 0.25,
             scale: 0.8,
-            x: node.x,
-            y: node.y,
           }}
           animate={{
             opacity: [0.25, 0.6, 0.25],
-            y: ["-=10", "+=10"],
+            y: ["-=10", "+=10"], // float effect
             x: ["+=6", "-=6"],
           }}
           transition={{
@@ -95,43 +94,13 @@ function FloatingNodes() {
             repeatType: "mirror",
             ease: "easeInOut",
           }}
-        ></motion.span>
+        />
       ))}
     </div>
   );
 }
 
-// function FloatingNodes() {
-//   const nodes = Array.from({ length: 12 });
-//   return (
-//     <div className="pointer-events-none absolute inset-0">
-//       {nodes.map((_, i) => (
-//         <motion.span
-//           key={i}
-//           className="absolute h-2 w-2 rounded-full"
-//           style={{ backgroundColor: "#3ab5a9" }}
-//           initial={{
-//             opacity: 0.25,
-//             scale: 0.8,
-//             x: Math.random() * 100 + "%",
-//             y: Math.random() * 100 + "%",
-//           }}
-//           animate={{
-//             opacity: [0.25, 0.6, 0.25],
-//             y: ["-=10", "+=10"],
-//             x: ["+=6", "-=6"],
-//           }}
-//           transition={{
-//             duration: 6 + Math.random() * 6,
-//             repeat: Infinity,
-//             repeatType: "mirror",
-//             ease: "easeInOut",
-//           }}
-//         ></motion.span>
-//       ))}
-//     </div>
-//   );
-// }
+
 
 export default function Hero() {
   return (
