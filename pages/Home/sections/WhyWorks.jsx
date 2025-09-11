@@ -18,7 +18,7 @@ const features = [
 
 export default function WhyWorks() {
   return (
-    <section id="why" className="relative py-20">
+    <section id="why" className="relative py-10 md:py-20">
       <div className="mx-auto max-w-7xl px-6">
         <motion.h2
           className="text-center text-3xl font-bold text-slate-800 sm:text-4xl"

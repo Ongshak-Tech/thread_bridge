@@ -20,7 +20,7 @@ const benefits = [
 
 export default function Impact() {
   return (
-    <section id="benefits" className="relative py-24">
+    <section id="benefits" className="relative py-10 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <motion.h2
           className="text-center text-3xl font-bold text-slate-800 sm:text-4xl"

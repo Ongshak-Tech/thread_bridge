@@ -9,7 +9,7 @@ export default function ROICalculator() {
   const savings = Math.round(volume * (defectRate / 100) * cost * 0.4);
 
   return (
-    <section id="roi" className="relative py-24">
+    <section id="roi" className="relative py-10 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <motion.h3
           className="text-center text-3xl font-bold text-slate-800 sm:text-4xl"

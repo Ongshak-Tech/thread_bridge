@@ -21,7 +21,7 @@ export default function DemoWidget() {
   const [boxes, setBoxes] = useState(() => randomBoxes(6));
 
   return (
-    <section id="demo" className="relative py-24">
+    <section id="demo" className="relative py-10 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-6 flex items-center justify-between">
           <h3 className="text-2xl font-bold text-slate-800">
