@@ -43,7 +43,7 @@ function AnimatedGrid() {
           boxShadow: "0 0 30px rgba(58,181,169,.25)",
         }}
         initial={{ y: "-20%", opacity: 0.6 }}
-        animate={{ y: ["-20%", "120%"], opacity: [0.6, 1, 0.6] }}
+        animate={{ y: ["-20%", "820%"], opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
       ></motion.div>
       <motion.div
@@ -138,7 +138,7 @@ export default function Hero() {
     <section id="hero" className="relative isolate overflow-hidden">
       <div className="relative">
         <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-20 sm:pt-32 lg:pt-40 lg:pb-28">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto max-w-3xl text-center relative z-10">
             <motion.h1
               className="text-4xl font-extrabold tracking-tight sm:text-6xl"
               style={{ color: "#1a2b4b" }}

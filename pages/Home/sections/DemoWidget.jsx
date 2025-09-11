@@ -48,7 +48,7 @@ export default function DemoWidget() {
                     background:
                       "linear-gradient(180deg, rgba(58,181,169,0) 0%, rgba(58,181,169,.35) 50%, rgba(58,181,169,0) 100%)",
                   }}
-                  animate={{ y: ["-10%", "110%"] }}
+                  animate={{ y: ["-10%", "810%"] }}
                   transition={{
                     duration: 3.8,
                     repeat: Infinity,
