@@ -46,7 +46,7 @@ export default function Home() {
           <a href="#dashboard" className="hover:text-slate-900">Live Data</a>
           <a href="#benefits" className="hover:text-slate-900">Benefits</a>
           <a href="#demo" className="hover:text-slate-900">Demo</a>
-          <a href="#roi" className="hover:text-slate-900">ROI</a>
+          {/* <a href="#roi" className="hover:text-slate-900">ROI</a> */}
           <a href="#about" className="hover:text-slate-900">About</a>
         </nav>
 
@@ -68,7 +68,7 @@ export default function Home() {
             <a href="#dashboard" className="hover:text-slate-900">Live Data</a>
             <a href="#benefits" className="hover:text-slate-900">Benefits</a>
             <a href="#demo" className="hover:text-slate-900">Demo</a>
-            <a href="#roi" className="hover:text-slate-900">ROI</a>
+            {/* <a href="#roi" className="hover:text-slate-900">ROI</a> */}
             <a href="#about" className="hover:text-slate-900">About</a>
           </nav>
         </div>

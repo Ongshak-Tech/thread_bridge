@@ -117,6 +117,8 @@ export default function DemoWidget() {
                     src={active ? selected.annotated : selected.normal}
                     alt="image"
                     fill
+                    sizes="100vw"
+                    style={{ objectFit: "contain" }} // or 'cover'
                   />
                 ) : null}
               </div>
