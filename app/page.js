@@ -15,6 +15,7 @@ import Footer from "@/pages/Home/sections/Footer";
 import { Menu, X } from "lucide-react";
 
 import { useEffect, useState } from "react";
+import { Toaster } from "sonner";
 
 export default function Home() {
     const [isOpen, setIsOpen] = useState(false);
@@ -90,6 +91,8 @@ export default function Home() {
       </main>
 
       <Footer />
+
+        <Toaster position="top-center" />
     </div>
   );
 }

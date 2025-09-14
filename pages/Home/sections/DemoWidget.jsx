@@ -102,7 +102,7 @@ export default function DemoWidget() {
           </div>
         </div>
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-black shadow-sm">
             <div
               className="relative h-[420px] w-full"
               style={{
@@ -129,7 +129,7 @@ export default function DemoWidget() {
                     background:
                       "linear-gradient(180deg, rgba(58,181,169,.5) 0%, rgba(58,181,169,.35) 50%, rgba(58,181,169,0) 100%)",
                   }}
-                  animate={{ y: ["-10%", "810%"] }}
+                  animate={{ y: ["-10%", "1010%"] }}
                   transition={{
                     duration: 3.8,
                     repeat: Infinity,
