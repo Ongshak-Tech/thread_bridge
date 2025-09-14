@@ -83,9 +83,9 @@ export default function Home() {
         <Impact />
         <CTA />
         <DemoWidget />
-        <ROICalculator />
+        {/* <ROICalculator /> */}
         <Comparison />
-        <Testimonials />
+        {/* <Testimonials /> */}
         <About />
       </main>
 
