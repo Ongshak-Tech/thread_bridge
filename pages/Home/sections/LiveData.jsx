@@ -37,6 +37,8 @@ export default function LiveData() {
   const [data, setData] = useState(generateData());
   const [rate, setRate] = useState(72);
 
+  console.log("Data", data);
+
   useEffect(() => {
     const id = setInterval(() => {
       setData((prev) => {
