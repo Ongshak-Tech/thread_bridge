@@ -261,6 +261,21 @@ export default function CTA() {
               />
             </div>
             <div className="flex flex-col gap-2">
+              <Label htmlFor="demo-phone">Phone Number</Label>
+              <Input
+                id="demo-phone"
+                type="tel"
+                placeholder="+880 1XX XXX XXXX"
+                value={pilotObj?.phone}
+                onChange={(e) =>
+                  setPilotObj({
+                    ...pilotObj,
+                    phone: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="pilot-message">Message</Label>
               <Textarea
                 id="pilot-message"
