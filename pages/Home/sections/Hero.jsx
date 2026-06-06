@@ -2,7 +2,7 @@ import { MotionConfig, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 
 function AnimatedGrid() {
   return (
@@ -62,15 +62,17 @@ function AnimatedGrid() {
 
 
 function FloatingNodes() {
-  const nodes = useMemo(
-    () =>
+  const [nodes, setNodes] = useState([]);
+
+  useEffect(() => {
+    setNodes(
       Array.from({ length: 12 }).map(() => ({
-        x: Math.random() * 100 + "%", // stay within screen width
-        y: Math.random() * 100 + "%", // stay within screen height
+        x: Math.random() * 100 + "%",
+        y: Math.random() * 100 + "%",
         duration: 6 + Math.random() * 6,
-      })),
-    []
-  );
+      }))
+    );
+  }, []);
 
   return (
     <div className="pointer-events-none  inset-0 w-full h-full">

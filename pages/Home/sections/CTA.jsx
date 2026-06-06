@@ -46,6 +46,7 @@ export default function CTA() {
   const [pilotObj, setPilotObj] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
     date: "",
     time: "",
@@ -68,6 +69,7 @@ export default function CTA() {
           setPilotObj({
             name: "",
             email: "",
+            phone: "",
             message: "",
             date: "",
             time: "",
@@ -173,6 +175,21 @@ export default function CTA() {
                   setPilotObj({
                     ...pilotObj,
                     email: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="pilot-phone">Phone Number</Label>
+              <Input
+                id="pilot-phone"
+                type="tel"
+                placeholder="+880 1XX XXX XXXX"
+                value={pilotObj?.phone}
+                onChange={(e) =>
+                  setPilotObj({
+                    ...pilotObj,
+                    phone: e.target.value,
                   })
                 }
               />
