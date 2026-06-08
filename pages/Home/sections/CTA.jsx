@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import emailjs from "emailjs-com";
-import { toast } from "sonner";
+import { Loader2, CheckCircle2, XCircle } from "lucide-react";
 
 function AnimatedThreads() {
   const lines = Array.from({ length: 10 });
@@ -42,19 +42,21 @@ export default function CTA() {
   const [openPilot, setOpenPilot] = useState(false);
   const [openDemo, setOpenDemo] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
-  const [pilotObj, setPilotObj] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-    date: "",
-    time: "",
-  });
+  const emptyForm = { name: "", email: "", phone: "", message: "", date: "", time: "" };
+  const [pilotObj, setPilotObj] = useState(emptyForm);
+
+  const handleClose = (setter) => {
+    setter(false);
+    setSubmitStatus(null);
+    setPilotObj(emptyForm);
+  };
 
   const sendEmailPilot = (e) => {
     e.preventDefault();
     setLoading(true);
+    setSubmitStatus(null);
 
     emailjs
       .send(
@@ -64,22 +66,18 @@ export default function CTA() {
         "zxT7dS2tzXkibqc7X"
       )
       .then(
-        (result) => {
-          toast("Email sent successfully!");
-          setPilotObj({
-            name: "",
-            email: "",
-            phone: "",
-            message: "",
-            date: "",
-            time: "",
-          });
-          setOpenPilot(false);
-          setOpenDemo(false);
+        () => {
+          setSubmitStatus("success");
           setLoading(false);
+          setTimeout(() => {
+            setPilotObj(emptyForm);
+            setOpenPilot(false);
+            setOpenDemo(false);
+            setSubmitStatus(null);
+          }, 2500);
         },
-        (error) => {
-          toast("Failed to send email, please try again.");
+        () => {
+          setSubmitStatus("error");
           setLoading(false);
         }
       );
@@ -140,7 +138,7 @@ export default function CTA() {
       </div>
 
       {/* Join Pilot Program Modal */}
-      <Dialog open={openPilot} onOpenChange={setOpenPilot}>
+      <Dialog open={openPilot} onOpenChange={() => handleClose(setOpenPilot)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Join Pilot Program</DialogTitle>
@@ -148,80 +146,85 @@ export default function CTA() {
               Fill out the form and we’ll get in touch with you.
             </DialogDescription>
           </DialogHeader>
-          <form className="space-y-4" onSubmit={sendEmailPilot}>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="pilot-name">Name</Label>
-              <Input
-                id="pilot-name"
-                type="text"
-                placeholder="Your Name"
-                value={pilotObj?.name}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    name: e.target.value,
-                  })
-                }
-              />
+
+          {submitStatus === "success" && (
+            <div className="flex flex-col items-center gap-3 py-6 text-center">
+              <CheckCircle2 className="h-12 w-12 text-[#3ab5a9]" />
+              <p className="font-semibold text-gray-800">Message sent successfully!</p>
+              <p className="text-sm text-gray-500">We’ll get back to you shortly.</p>
             </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="pilot-email">Email</Label>
-              <Input
-                id="pilot-email"
-                type="email"
-                placeholder="you@example.com"
-                value={pilotObj?.email}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    email: e.target.value,
-                  })
-                }
-              />
+          )}
+
+          {submitStatus === "error" && (
+            <div className="flex flex-col items-center gap-3 py-4 text-center">
+              <XCircle className="h-10 w-10 text-red-500" />
+              <p className="font-semibold text-gray-800">Failed to send message.</p>
+              <p className="text-sm text-gray-500">Please try again.</p>
             </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="pilot-phone">Phone Number</Label>
-              <Input
-                id="pilot-phone"
-                type="tel"
-                placeholder="+880 1XX XXX XXXX"
-                value={pilotObj?.phone}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    phone: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="pilot-message">Message</Label>
-              <Textarea
-                id="pilot-message"
-                placeholder="Tell us a bit about your factory or requirements..."
-                value={pilotObj?.message}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    message: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <DialogFooter>
-              <Button
-                type="submit"
-                className="bg-[#3ab5a9] hover:bg-[#3ab5a9] text-[#0b1a33]"
-              >
-                {loading ? "Processing" : "Submit"}
-              </Button>
-            </DialogFooter>
-          </form>
+          )}
+
+          {!submitStatus && (
+            <form className="space-y-4" onSubmit={sendEmailPilot}>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="pilot-name">Name</Label>
+                <Input
+                  id="pilot-name"
+                  type="text"
+                  placeholder="Your Name"
+                  required
+                  value={pilotObj?.name}
+                  onChange={(e) => setPilotObj({ ...pilotObj, name: e.target.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="pilot-email">Email</Label>
+                <Input
+                  id="pilot-email"
+                  type="email"
+                  placeholder="you@example.com"
+                  required
+                  value={pilotObj?.email}
+                  onChange={(e) => setPilotObj({ ...pilotObj, email: e.target.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="pilot-phone">Phone Number</Label>
+                <Input
+                  id="pilot-phone"
+                  type="tel"
+                  placeholder="+880 1XX XXX XXXX"
+                  required
+                  value={pilotObj?.phone}
+                  onChange={(e) => setPilotObj({ ...pilotObj, phone: e.target.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="pilot-message">Message</Label>
+                <Textarea
+                  id="pilot-message"
+                  placeholder="Tell us a bit about your factory or requirements..."
+                  value={pilotObj?.message}
+                  onChange={(e) => setPilotObj({ ...pilotObj, message: e.target.value })}
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-[#3ab5a9] hover:bg-[#3ab5a9] text-[#0b1a33] cursor-pointer"
+                >
+                  {loading ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>
+                  ) : "Submit"}
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
         </DialogContent>
       </Dialog>
 
       {/* Schedule Demo Modal */}
-      <Dialog open={openDemo} onOpenChange={setOpenDemo}>
+      <Dialog open={openDemo} onOpenChange={() => handleClose(setOpenDemo)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Schedule a Demo</DialogTitle>
@@ -229,103 +232,100 @@ export default function CTA() {
               Pick a date and time, and we’ll confirm your demo.
             </DialogDescription>
           </DialogHeader>
-          <form className="space-y-4" onSubmit={sendEmailPilot}>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="pilot-name">Name</Label>
-              <Input
-                id="pilot-name"
-                type="text"
-                placeholder="Your Name"
-                value={pilotObj?.name}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    name: e.target.value,
-                  })
-                }
-              />
+
+          {submitStatus === "success" && (
+            <div className="flex flex-col items-center gap-3 py-6 text-center">
+              <CheckCircle2 className="h-12 w-12 text-[#3ab5a9]" />
+              <p className="font-semibold text-gray-800">Demo scheduled successfully!</p>
+              <p className="text-sm text-gray-500">We’ll confirm your slot shortly.</p>
             </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="pilot-email">Email</Label>
-              <Input
-                id="pilot-email"
-                type="email"
-                placeholder="you@example.com"
-                value={pilotObj?.email}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    email: e.target.value,
-                  })
-                }
-              />
+          )}
+
+          {submitStatus === "error" && (
+            <div className="flex flex-col items-center gap-3 py-4 text-center">
+              <XCircle className="h-10 w-10 text-red-500" />
+              <p className="font-semibold text-gray-800">Failed to send message.</p>
+              <p className="text-sm text-gray-500">Please try again.</p>
             </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="demo-phone">Phone Number</Label>
-              <Input
-                id="demo-phone"
-                type="tel"
-                placeholder="+880 1XX XXX XXXX"
-                value={pilotObj?.phone}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    phone: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="pilot-message">Message</Label>
-              <Textarea
-                id="pilot-message"
-                placeholder="Tell us a bit about your factory or requirements..."
-                value={pilotObj?.message}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    message: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="demo-date">Date</Label>
-              <Input
-                id="demo-date"
-                type="date"
-                value={pilotObj?.date}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    date: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="demo-time">Time</Label>
-              <Input
-                id="demo-time"
-                type="time"
-                value={pilotObj?.time}
-                onChange={(e) =>
-                  setPilotObj({
-                    ...pilotObj,
-                    time: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <DialogFooter>
-              <Button
-                type="submit"
-                className="bg-[#3ab5a9] hover:bg-[#3ab5a9] text-[#0b1a33] cursor-pointer"
-              >
-                {loading ? "Processing" : "Schedule"}
-              </Button>
-            </DialogFooter>
-          </form>
+          )}
+
+          {!submitStatus && (
+            <form className="space-y-4" onSubmit={sendEmailPilot}>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="demo-name">Name</Label>
+                <Input
+                  id="demo-name"
+                  type="text"
+                  placeholder="Your Name"
+                  required
+                  value={pilotObj?.name}
+                  onChange={(e) => setPilotObj({ ...pilotObj, name: e.target.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="demo-email">Email</Label>
+                <Input
+                  id="demo-email"
+                  type="email"
+                  placeholder="you@example.com"
+                  required
+                  value={pilotObj?.email}
+                  onChange={(e) => setPilotObj({ ...pilotObj, email: e.target.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="demo-phone">Phone Number</Label>
+                <Input
+                  id="demo-phone"
+                  type="tel"
+                  placeholder="+880 1XX XXX XXXX"
+                  required
+                  value={pilotObj?.phone}
+                  onChange={(e) => setPilotObj({ ...pilotObj, phone: e.target.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="demo-message">Message</Label>
+                <Textarea
+                  id="demo-message"
+                  placeholder="Tell us a bit about your factory or requirements..."
+                  value={pilotObj?.message}
+                  onChange={(e) => setPilotObj({ ...pilotObj, message: e.target.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="demo-date">Date</Label>
+                <Input
+                  id="demo-date"
+                  type="date"
+                  required
+                  value={pilotObj?.date}
+                  onChange={(e) => setPilotObj({ ...pilotObj, date: e.target.value })}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="demo-time">Time</Label>
+                <Input
+                  id="demo-time"
+                  type="time"
+                  required
+                  value={pilotObj?.time}
+                  onChange={(e) => setPilotObj({ ...pilotObj, time: e.target.value })}
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-[#3ab5a9] hover:bg-[#3ab5a9] text-[#0b1a33] cursor-pointer"
+                >
+                  {loading ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>
+                  ) : "Schedule"}
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
         </DialogContent>
       </Dialog>
     </section>
