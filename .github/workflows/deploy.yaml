@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Copy build to VPS
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
@@ -38,7 +38,7 @@ jobs:
           target: ${{ secrets.VPS_TARGET_PATH }}
 
       - name: Restart PM2 on VPS
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
