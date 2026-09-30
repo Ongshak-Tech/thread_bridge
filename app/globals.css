@@ -119,4 +119,24 @@
   body {
     @apply bg-background text-foreground;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Keep anchored sections clear of the sticky header. */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+  /* Hairline divider between stacked sections (not above the hero). */
+  main > section + section {
+    border-top: 1px solid #e2e8f0;
+  }
+  /* The CTA sits on navy, so it needs a light-on-dark rule instead. */
+  main > section#pilot {
+    border-top-color: rgb(255 255 255 / 0.12);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 }
