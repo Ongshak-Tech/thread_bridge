@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
@@ -179,6 +179,18 @@ function VideoModal({ onClose }: { onClose: () => void }) {
 
 export default function Hero() {
   const [isOpen, setIsOpen] = useState(false);
+  const previewRef = useRef<HTMLVideoElement>(null);
+
+  // Safari won't always honour the autoplay attribute on its own (it can try
+  // before hydration and give up), so start the muted preview explicitly.
+  useEffect(() => {
+    const video = previewRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.play().catch(() => {
+      // Low Power Mode or a "Never Auto-Play" setting; the poster stays up.
+    });
+  }, []);
 
   return (
     <section id="hero" className="relative isolate overflow-hidden">
@@ -260,6 +272,7 @@ export default function Hero() {
               className="group relative block w-full cursor-pointer overflow-hidden rounded-xl bg-slate-950 focus-visible:ring-2 focus-visible:ring-[#3ab5a9] focus-visible:ring-offset-4 focus-visible:outline-none"
             >
               <video
+                ref={previewRef}
                 className="aspect-video w-full object-cover"
                 src="/video/threadBridge-preview.mp4"
                 poster="/video/poster.jpg"
@@ -267,7 +280,7 @@ export default function Hero() {
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="auto"
                 aria-hidden
               />
 
